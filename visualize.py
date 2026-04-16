@@ -8,6 +8,7 @@ print(f"Shape: {point_map.shape}")
 
 points = point_map.reshape(-1, 3)
 print(f"Total apple points: {len(points)}")
+points = points[~np.isnan(points).any(axis=1)]
 
 
 # Subsample for performance

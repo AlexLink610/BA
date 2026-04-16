@@ -26,8 +26,8 @@ def main():
     for i, fname in enumerate(filenames):
         #mask_path = os.path.join(MASK_DIR, fname)
         base = os.path.splitext(fname)[0]  # "frame_00001"
-        mask_path = os.path.join(MASK_DIR, mask_fname)
         mask_fname = f"mask_{base}.png"
+        mask_path = os.path.join(MASK_DIR, mask_fname)        
 
         if not os.path.exists(mask_path):
             print(f"  [{i+1}/{N}] Mask not found for {fname}, skipping")
@@ -40,6 +40,7 @@ def main():
 
         # Get apple points from point map
         apple_pts = point_maps[i][mask_np]  # shape: (K, 3)
+        apple_pts = apple_pts[~np.isnan(apple_pts).any(axis=1)]  # remove NaN points
         apple_points.append(apple_pts)
         print(f"  [{i+1}/{N}] {fname}: {apple_pts.shape[0]} apple points")
 
